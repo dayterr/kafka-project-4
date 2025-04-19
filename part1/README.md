@@ -1,9 +1,9 @@
 # зайти в терминал контейнера kafka-0
-команда:
+команда: 
 `docker exec -it kafka-0 bash`
 
 # создание топика balanced_topic
-команда:
+команда: 
 `kafka-topics.sh --bootstrap-server localhost:9092 --topic balanced_topic --create --partitions 8 --replication-factor 3`
 
 вывод:
@@ -15,7 +15,7 @@
 -->
 
 # проверим состояние партиций
-команда:
+команда: 
 `kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic balanced_topic`
 
 вывод:
@@ -44,7 +44,7 @@ cd /tmp && echo '{
   }' > reassignment.json
 ```
 
-проверим, что файл создан:
+проверим, что файл создан: 
 `ls`
 
 вывод:
@@ -86,6 +86,54 @@ kafka-reassign-partitions.sh --bootstrap-server localhost:9092 --reassignment-js
 -->
 
 # проверим статус перераспределения
+команда:  
+```
+kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic balanced_topic
+```
+
+[<img src="pics/step5.png">](https://github.com/dayterr/kafka-project-4/blob/main/part1/pics/step5.png)
+
+<!---
+можно посмотреть картинку step5.png в директории pics
+-->
 
 # убедимся, что конфигурация изменилась
 
+сравним со step2.png и увидим различия  
+
+# смоделируем сбой брокера
+
+## остановим брокер kafka-1
+команда: 
+`docker stop kafka-1`
+
+## проверим состояние топиков после сбоя
+команда:
+```
+kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic balanced_topic
+```
+
+[<img src="pics/step7-2.png">](https://github.com/dayterr/kafka-project-4/blob/main/part1/pics/step7-2.png)
+
+<!---
+можно посмотреть картинку step7-2.png в директории pics
+-->
+
+## запустим брокер заново
+команда:  
+`docker start kafka-1`
+
+## проверим, восстановилась ли синхронизация реплик
+
+команда:  
+```
+kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic balanced_topic
+```
+
+[<img src="pics/step7-4.png">](https://github.com/dayterr/kafka-project-4/blob/main/part1/pics/step7-4.png)
+
+<!---
+можно посмотреть картинку step7-4.png в директории pics
+-->
+
+да, синхронизация реплик ыосстановилась.
