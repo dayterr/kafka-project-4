@@ -6,21 +6,18 @@ from confluent_kafka import Consumer
 if __name__ == "__main__":
    consumer_conf = {
        "bootstrap.servers": "localhost:9093",
-       "group.id": "consumer-ssl-group",
+       "group.id": "kafka",
        "auto.offset.reset": "latest",
 
 
-       "security.protocol": "SASL_PLAINTEXT",
+       "security.protocol": "SSL",
        "ssl.ca.location": "ca.crt",  # Сертификат центра сертификации
        "ssl.certificate.location": "kafka-1-creds/kafka-1.crt",  # Сертификат клиента Kafka
        "ssl.key.location": "kafka-1-creds/kafka-1.key",  # Приватный ключ для клиента Kafka
 
-       "sasl.mechanism": "PLAIN",  # Используемый механизм SASL (PLAIN)
-       "sasl.username": "kafka",  # Имя пользователя для аутентификации
-       "sasl.password": "kafka-secret",
    }
    consumer = Consumer(consumer_conf)
-   consumer.subscribe(["topic_2"])
+   consumer.subscribe(["topic_1"])
 
 
    try:

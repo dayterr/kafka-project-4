@@ -7,14 +7,12 @@ services:
    image: confluentinc/cp-zookeeper:7.4.4
    environment:
      ZOOKEEPER_CLIENT_PORT: 2181
-     ZOOKEEPER_REQUIRE_CLIENT_AUTH_SCHEME: "sasl"
-     ZOOKEEPER_AUTH_PROVIDER_1: "org.apache.zookeeper.server.auth.SASLAuthenticationProvider"
-     ZOOKEEPER_SASL_ENABLED: "true"
+     #ZOOKEEPER_REQUIRE_CLIENT_AUTH_SCHEME: "sasl"
+     #ZOOKEEPER_AUTH_PROVIDER_1: "org.apache.zookeeper.server.auth.SASLAuthenticationProvider"
+     #ZOOKEEPER_SASL_ENABLED: "true"
      KAFKA_OPTS:
        -Djava.security.auth.login.config=/etc/zookeeper/secrets/zookeeper.sasl.jaas.conf
        -Dquorum.cnxn.threads.size=20
-       -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
-       -Dzookeeper.allowSaslFailedClients=false
        -DjaasLoginRenew=3600000
    volumes:
      - data-zookeeper-log-1:/var/lib/zookeeper/log
@@ -46,7 +44,7 @@ services:
      KAFKA_ZOOKEEPER_SASL_CLIENT: true
      KAFKA_LISTENER_NAME_BROKER_SASL_ENABLED_MECHANISMS: PLAIN
      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
-     KAFKA_SUPER_USERS: "User:admin"
+     KAFKA_SUPER_USERS: "User:admin;User:kafka"
      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/secrets/kafka_server_jaas.conf"
      KAFKA_SSL_KEYSTORE_FILENAME: kafka.kafka-1.keystore.pkcs12
      KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka-1_keystore_creds
@@ -54,9 +52,9 @@ services:
      KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.kafka-1.truststore.jks
      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-1_truststore_creds
      KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
-     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,SASL_PLAINTEXT://0.0.0.0:9093
-     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,SASL_PLAINTEXT://localhost:9093
-     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SASL_PLAINTEXT:SASL_PLAINTEXT
+     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093
+     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,SSL://localhost:9093
+     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SSL:SSL
      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
    volumes:
      - data-kafka-1:/var/lib/kafka/data
@@ -86,7 +84,7 @@ services:
      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "false"
      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
-     KAFKA_SUPER_USERS: "User:admin"
+     KAFKA_SUPER_USERS: "User:admin;User:kafka"
      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/secrets/kafka_server_jaas.conf"
      KAFKA_SSL_KEYSTORE_FILENAME: kafka.kafka-2.keystore.pkcs12
      KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka-2_keystore_creds
@@ -94,9 +92,9 @@ services:
      KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.kafka-2.truststore.jks
      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-2_truststore_creds
      KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
-     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094,SASL_PLAINTEXT://0.0.0.0:9095
-     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9094,SASL_PLAINTEXT://localhost:9095
-     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SASL_PLAINTEXT:SASL_PLAINTEXT
+     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094,SSL://0.0.0.0:9095
+     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9094,SSL://localhost:9095
+     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SSL:SSL
      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
    volumes:
      - data-kafka-2:/var/lib/kafka/data
@@ -126,7 +124,7 @@ services:
      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "false"
      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
-     KAFKA_SUPER_USERS: "User:admin"
+     KAFKA_SUPER_USERS: "User:admin;User:kafka"
      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/secrets/kafka_server_jaas.conf"
      KAFKA_SSL_KEYSTORE_FILENAME: kafka.kafka-3.keystore.pkcs12
      KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka-3_keystore_creds
@@ -134,9 +132,9 @@ services:
      KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.kafka-3.truststore.jks
      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-3_truststore_creds
      KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
-     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9096,SASL_PLAINTEXT://0.0.0.0:9097
-     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9096,SASL_PLAINTEXT://localhost:9097
-     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SASL_PLAINTEXT:SASL_PLAINTEXT
+     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9096,SSL://0.0.0.0:9097
+     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9096,SSL://localhost:9097
+     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SSL:SSL
      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
    volumes:
      - data-kafka-3:/var/lib/kafka/data
