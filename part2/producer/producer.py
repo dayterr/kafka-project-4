@@ -31,9 +31,17 @@ if __name__ == '__main__':
         value = 'SASL/PLAIN'
         producer.produce(
            'topic_1',
-            #key=key,
+            key=key,
             value=value,
             )
         producer.flush()
         print(f'Отправлено сообщение: {key=}, {value=}')
         time.sleep(5)
+        producer.produce(
+           'topic_2',
+            value='hey topic 2',
+            )
+        producer.flush()
+        print(f'Отправлено сообщение в topic_2')
+        time.sleep(5)
+

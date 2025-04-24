@@ -1,4 +1,4 @@
-from confluent_kafka import Consumer
+from confluent_kafka import Consumer, KafkaException
 
 
 if __name__ == "__main__":
@@ -33,5 +33,7 @@ if __name__ == "__main__":
             key = message.key().decode("utf-8")
             value = message.value().decode("utf-8")
             print(f"Получено сообщение: {key=}, {value=}, offset={message.offset()}")
+    except KafkaException as e:
+        print(f"Failed to {e}")
     finally:
         consumer.close()
