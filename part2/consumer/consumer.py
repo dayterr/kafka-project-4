@@ -3,14 +3,14 @@ from confluent_kafka import Consumer
 
 if __name__ == "__main__":
     consumer_conf = {
-       "bootstrap.servers": "localhost:9092",
+       "bootstrap.servers": "kafka-0:9092,kafka-1:9092,kafka-2:9092",
        "group.id": "kafka",
        "auto.offset.reset": "earliest",
 
        "security.protocol": "SASL_SSL",
        "ssl.ca.location": "secrets/ca.crt",  # Сертификат центра сертификации
-       "ssl.certificate.location": "kafka-1-creds/kafka-1.crt",  # Сертификат клиента Kafka
-       "ssl.key.location": "kafka-1-creds/kafka-1.key",  # Приватный ключ для клиента Kafka
+       "ssl.certificate.location": "secrets/kafka.crt",  # Сертификат клиента Kafka
+       "ssl.key.location": "secrets/kafka.key",  # Приватный ключ для клиента Kafka
 
        "sasl.mechanism": "PLAIN",  # Используемый механизм SASL (PLAIN)
        "sasl.username": "alice",  # Имя пользователя для аутентификации
